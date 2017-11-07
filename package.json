@@ -1,0 +1,13 @@
+{
+  "name": "github.com-monospace-font-changer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "css": "^2.2.1",
+    "node-fetch": "^1.7.3"
+  }
+}
