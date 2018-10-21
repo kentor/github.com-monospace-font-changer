@@ -3,8 +3,8 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 
 const sources = [
-  'https://assets-cdn.github.com/assets/frameworks-d7137690e30123bade38abb082ac79f36cc7a105ff92e602405f53b725465cab.css',
-  'https://assets-cdn.github.com/assets/github-0ec8f40f7a33631b4b47f16538de5390d1bf9c7e896e7571eaa87e78159a92ef.css',
+  'https://assets-cdn.github.com/assets/frameworks-5aa6d9885579bb2359f66266aee26f3b.css',
+  'https://assets-cdn.github.com/assets/github-558080f77c5e1ef1c73e9aac93ccfb39.css',
 ];
 
 (async () => {
@@ -17,9 +17,9 @@ const sources = [
         return obj.stylesheet.rules.reduce((memo, rule) => {
           if (
             rule.declarations &&
-            rule.declarations.some(d => d.value.includes('monospace'))
+            rule.declarations.some((d) => d.value.includes('monospace'))
           ) {
-            return memo.concat(rule.selectors)
+            return memo.concat(rule.selectors);
           } else {
             return memo;
           }
@@ -28,10 +28,13 @@ const sources = [
     )
   );
 
-  const out =
-    `${selectors.join(',\n')} {\n  font-family: "Operator Mono" !important;\n}`;
+  const formattedSelectors = [...new Set(selectors)]
+    .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+    .join(',\n');
 
-  fs.writeFileSync('out.css', out);
+  const out = `${formattedSelectors} {\n  font-family: "Dank Mono", "Operator Mono" !important;\n}`;
+
+  fs.writeFileSync('out.css', `/* Last Generated ${new Date()} */\n${out}`);
 })();
 
 function flatten(arrays) {
